@@ -1,0 +1,738 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DCL Soluciones S.A. — Despacho Contable</title>
+<style>
+  :root {
+    --navy:      #1E3A6E;
+    --dark-navy: #0D2149;
+    --steel:     #5B7FA6;
+    --light-blue:#D6E4F0;
+    --pale:      #F0F5FB;
+    --white:     #FFFFFF;
+    --gray:      #4A5568;
+    --mid:       #8BAECC;
+    --accent:    #E8922E;
+  }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  html { scroll-behavior:smooth; }
+  body { font-family:'Segoe UI',Arial,sans-serif; color:var(--gray); background:var(--white); }
+
+  nav {
+    position:fixed; top:0; left:0; right:0; z-index:1000;
+    background:var(--dark-navy); padding:0 5%;
+    display:flex; align-items:center; justify-content:space-between;
+    height:64px; box-shadow:0 2px 16px rgba(0,0,0,.35);
+  }
+  .nav-brand { display:flex; align-items:center; gap:12px; text-decoration:none; }
+  .nav-logo-box {
+    width:42px; height:42px; background:var(--white); border-radius:6px;
+    display:flex; align-items:center; justify-content:center;
+    font-weight:900; font-size:18px; color:var(--navy); letter-spacing:-1px;
+  }
+  .nav-name { color:var(--white); font-size:16px; font-weight:700; letter-spacing:.5px; }
+  .nav-sub  { color:var(--mid);   font-size:10px; letter-spacing:1.5px; }
+  nav ul { list-style:none; display:flex; gap:28px; }
+  nav ul a { color:var(--light-blue); text-decoration:none; font-size:13.5px; font-weight:500; transition:.2s; }
+  nav ul a:hover { color:var(--white); }
+  .nav-cta {
+    background:var(--steel); color:var(--white) !important;
+    padding:8px 18px; border-radius:20px; font-weight:600 !important;
+  }
+  .nav-cta:hover { background:var(--accent) !important; }
+
+  #inicio {
+    min-height:100vh;
+    background:linear-gradient(135deg,var(--dark-navy) 0%,var(--navy) 60%,var(--steel) 100%);
+    display:flex; align-items:center; justify-content:center; text-align:center;
+    padding:100px 5% 60px; position:relative; overflow:hidden;
+  }
+  #inicio::before {
+    content:''; position:absolute; top:-80px; right:-80px;
+    width:500px; height:500px; border-radius:50%;
+    background:rgba(255,255,255,.04); pointer-events:none;
+  }
+  .hero-inner { position:relative; z-index:1; max-width:780px; }
+  .hero-badge {
+    display:inline-block; background:rgba(255,255,255,.12);
+    color:var(--light-blue); font-size:11px; letter-spacing:2px;
+    padding:6px 18px; border-radius:20px; margin-bottom:28px;
+    border:1px solid rgba(255,255,255,.18);
+  }
+  .hero-logo-box {
+    width:88px; height:88px; background:var(--white); border-radius:16px;
+    display:inline-flex; align-items:center; justify-content:center;
+    font-weight:900; font-size:36px; color:var(--navy); margin:0 auto 28px;
+    box-shadow:0 8px 32px rgba(0,0,0,.3); letter-spacing:-2px;
+  }
+  #inicio h1 { font-size:clamp(2rem,5vw,3.2rem); color:var(--white); font-weight:800; line-height:1.2; margin-bottom:16px; }
+  #inicio h1 span { color:var(--mid); }
+  #inicio p { font-size:clamp(1rem,2vw,1.15rem); color:var(--light-blue); max-width:560px; margin:0 auto 36px; line-height:1.7; }
+  .tagline { font-size:11px; letter-spacing:2.5px; color:var(--mid); margin-bottom:40px; font-weight:500; }
+  .hero-btns { display:flex; gap:14px; justify-content:center; flex-wrap:wrap; }
+  .btn-primary {
+    background:var(--white); color:var(--navy); padding:14px 32px;
+    border-radius:8px; font-weight:700; font-size:14.5px; text-decoration:none;
+    transition:.25s; box-shadow:0 4px 16px rgba(0,0,0,.25);
+  }
+  .btn-primary:hover { background:var(--light-blue); transform:translateY(-2px); }
+  .btn-outline {
+    border:2px solid rgba(255,255,255,.4); color:var(--white); padding:13px 30px;
+    border-radius:8px; font-weight:600; font-size:14.5px; text-decoration:none; transition:.25s;
+  }
+  .btn-outline:hover { background:rgba(255,255,255,.1); }
+  .hero-stats {
+    margin-top:56px; display:flex; gap:40px; justify-content:center; flex-wrap:wrap;
+    padding-top:40px; border-top:1px solid rgba(255,255,255,.12);
+  }
+  .stat { text-align:center; }
+  .stat-n { font-size:2rem; font-weight:800; color:var(--white); }
+  .stat-l { font-size:11px; color:var(--mid); letter-spacing:1px; margin-top:2px; }
+
+  section { padding:90px 5%; }
+  .section-tag {
+    display:inline-block; background:var(--pale); color:var(--steel);
+    font-size:11px; letter-spacing:2px; font-weight:700;
+    padding:5px 14px; border-radius:20px; margin-bottom:14px;
+  }
+  h2 { font-size:clamp(1.6rem,3.5vw,2.4rem); color:var(--dark-navy); font-weight:800; margin-bottom:12px; }
+  .lead { font-size:1.05rem; color:var(--gray); line-height:1.75; max-width:640px; margin-bottom:50px; }
+  .text-center { text-align:center; }
+  .text-center .lead { margin-left:auto; margin-right:auto; }
+
+  #nosotros { background:var(--white); }
+  .historia-grid {
+    display:grid; grid-template-columns:1fr 1fr; gap:50px; align-items:start; margin-bottom:60px;
+  }
+  @media(max-width:768px){ .historia-grid{ grid-template-columns:1fr; } }
+  .historia-text h3 { font-size:1.3rem; color:var(--navy); font-weight:700; margin-bottom:14px; }
+  .historia-text p  { line-height:1.8; color:var(--gray); margin-bottom:18px; }
+  .historia-img {
+    background:linear-gradient(145deg,var(--dark-navy),var(--navy));
+    border-radius:16px; padding:44px 36px; color:var(--white);
+    box-shadow:0 12px 40px rgba(13,33,73,.3);
+  }
+  .historia-img h3 { font-size:1.5rem; margin-bottom:8px; }
+  .historia-img .sub { color:var(--mid); font-size:12px; letter-spacing:1px; margin-bottom:28px; }
+  .kpi-row { display:grid; grid-template-columns:1fr 1fr; gap:16px; }
+  .kpi { background:rgba(255,255,255,.1); border-radius:10px; padding:18px 14px; text-align:center; }
+  .kpi-n { font-size:2rem; font-weight:800; color:var(--white); }
+  .kpi-l { font-size:11px; color:var(--light-blue); margin-top:3px; }
+
+  .mvv-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:24px; }
+  @media(max-width:768px){ .mvv-grid{ grid-template-columns:1fr; } }
+  .mvv-card { border-radius:14px; padding:36px 28px; box-shadow:0 4px 20px rgba(0,0,0,.07); transition:.25s; }
+  .mvv-card:hover { transform:translateY(-4px); box-shadow:0 10px 32px rgba(0,0,0,.12); }
+  .mvv-card.dark  { background:var(--dark-navy); }
+  .mvv-card.navy  { background:var(--navy); }
+  .mvv-card.light { background:var(--pale); }
+  .mvv-icon { font-size:2rem; margin-bottom:16px; }
+  .mvv-title { font-size:1.1rem; font-weight:700; margin-bottom:12px; }
+  .mvv-card.dark  .mvv-title, .mvv-card.navy .mvv-title { color:var(--white); }
+  .mvv-card.light .mvv-title { color:var(--dark-navy); }
+  .mvv-card.dark  p, .mvv-card.navy p { color:var(--light-blue); line-height:1.7; font-size:.95rem; }
+  .mvv-card.light p { color:var(--gray); line-height:1.7; font-size:.95rem; }
+  .valores-grid { display:flex; flex-wrap:wrap; gap:10px; margin-top:14px; }
+  .valor-chip { background:var(--pale); color:var(--navy); padding:6px 14px; border-radius:20px; font-size:12.5px; font-weight:600; }
+
+  #junta { background:var(--pale); }
+  .junta-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(260px,1fr)); gap:24px; }
+  .jd-card {
+    background:var(--white); border-radius:14px; padding:32px 24px;
+    box-shadow:0 4px 18px rgba(0,0,0,.07); transition:.25s; border-top:4px solid var(--navy); text-align:center;
+  }
+  .jd-card:hover { transform:translateY(-4px); box-shadow:0 10px 32px rgba(0,0,0,.12); }
+  .jd-card.hi { border-top-color:var(--steel); }
+  .jd-avatar {
+    width:64px; height:64px; border-radius:50%; background:var(--navy);
+    display:inline-flex; align-items:center; justify-content:center;
+    font-size:1.4rem; font-weight:800; color:var(--white); margin-bottom:16px;
+  }
+  .jd-card.hi .jd-avatar { background:var(--steel); }
+  .jd-name  { font-size:1rem; font-weight:700; color:var(--dark-navy); margin-bottom:4px; }
+  .jd-cargo { font-size:.82rem; color:var(--steel); font-weight:600; letter-spacing:.5px; margin-bottom:12px; }
+  .jd-desc  { font-size:.88rem; color:var(--gray); line-height:1.65; }
+  .org-note {
+    text-align:center; margin-top:42px; padding:22px 28px;
+    background:var(--white); border-radius:12px; border-left:4px solid var(--steel);
+    max-width:640px; margin-left:auto; margin-right:auto; box-shadow:0 2px 12px rgba(0,0,0,.06);
+  }
+  .org-note p { font-size:.92rem; color:var(--gray); line-height:1.7; }
+  .org-note strong { color:var(--navy); }
+
+  #servicios { background:var(--white); }
+  .servicios-tabs { display:flex; gap:12px; margin-bottom:40px; flex-wrap:wrap; }
+  .tab-btn {
+    padding:10px 22px; border-radius:8px; border:2px solid var(--light-blue);
+    background:var(--white); color:var(--navy); font-weight:600; font-size:13.5px; cursor:pointer; transition:.2s;
+  }
+  .tab-btn.active { background:var(--navy); color:var(--white); border-color:var(--navy); }
+  .tab-btn:hover:not(.active) { background:var(--pale); }
+  .tab-content { display:none; }
+  .tab-content.active { display:grid; grid-template-columns:repeat(auto-fit,minmax(260px,1fr)); gap:20px; }
+  .svc-card {
+    background:var(--pale); border-radius:12px; padding:26px 22px;
+    border-left:4px solid var(--navy); transition:.2s;
+  }
+  .svc-card:hover { background:var(--light-blue); }
+  .svc-icon { font-size:1.6rem; margin-bottom:12px; }
+  .svc-title { font-size:1rem; font-weight:700; color:var(--dark-navy); margin-bottom:8px; }
+  .svc-desc  { font-size:.88rem; color:var(--gray); line-height:1.65; }
+  .svc-badge {
+    display:inline-block; margin-top:12px; background:var(--navy);
+    color:var(--white); font-size:11px; font-weight:600; padding:4px 12px; border-radius:20px;
+  }
+
+  #contacto { background:linear-gradient(160deg,var(--dark-navy) 0%,var(--navy) 100%); }
+  #contacto h2 { color:var(--white); }
+  #contacto .lead { color:var(--light-blue); }
+  #contacto .section-tag { background:rgba(255,255,255,.12); color:var(--light-blue); }
+  .contacto-grid { display:grid; grid-template-columns:1fr 1fr; gap:50px; align-items:start; }
+  @media(max-width:768px){ .contacto-grid{ grid-template-columns:1fr; } }
+
+  .form-card { background:var(--white); border-radius:16px; padding:40px 36px; box-shadow:0 16px 48px rgba(0,0,0,.3); }
+  .form-card h3 { font-size:1.25rem; color:var(--dark-navy); font-weight:700; margin-bottom:6px; }
+  .form-card .sub { font-size:.88rem; color:var(--gray); margin-bottom:28px; }
+  .form-row { display:grid; grid-template-columns:1fr 1fr; gap:16px; }
+  @media(max-width:600px){ .form-row{ grid-template-columns:1fr; } }
+  .form-group { margin-bottom:18px; }
+  .form-group label { display:block; font-size:12.5px; font-weight:600; color:var(--dark-navy); margin-bottom:6px; }
+  .form-group input, .form-group select, .form-group textarea {
+    width:100%; padding:11px 14px; border:1.5px solid #D1DCE8; border-radius:8px;
+    font-size:14px; font-family:inherit; color:var(--gray); transition:.2s;
+  }
+  .form-group input:focus, .form-group select:focus, .form-group textarea:focus {
+    outline:none; border-color:var(--steel); box-shadow:0 0 0 3px rgba(91,127,166,.12);
+  }
+  .form-group textarea { resize:vertical; min-height:100px; }
+  .form-check { display:flex; align-items:flex-start; gap:10px; margin-bottom:22px; }
+  .form-check input[type=checkbox] { margin-top:3px; accent-color:var(--navy); }
+  .form-check label { font-size:12.5px; color:var(--gray); line-height:1.5; }
+  .btn-submit {
+    width:100%; padding:14px; background:var(--navy); color:var(--white);
+    border:none; border-radius:8px; font-size:15px; font-weight:700; cursor:pointer; transition:.25s;
+  }
+  .btn-submit:hover { background:var(--dark-navy); transform:translateY(-2px); }
+  .form-success { display:none; text-align:center; padding:28px; background:var(--pale); border-radius:10px; margin-top:20px; }
+  .form-success .check { font-size:2.5rem; }
+  .form-success p { color:var(--navy); font-weight:600; margin-top:8px; }
+
+  .contact-info h3 { font-size:1.2rem; color:var(--white); font-weight:700; margin-bottom:24px; }
+  .info-item { display:flex; gap:14px; margin-bottom:22px; align-items:flex-start; }
+  .info-icon {
+    width:44px; height:44px; background:rgba(255,255,255,.12); border-radius:10px;
+    display:flex; align-items:center; justify-content:center; font-size:1.2rem; flex-shrink:0;
+  }
+  .info-text strong { display:block; color:var(--white); font-size:.9rem; margin-bottom:2px; }
+  .info-text span   { color:var(--mid); font-size:.85rem; }
+  .wa-box {
+    margin-top:36px; background:rgba(255,255,255,.08); border-radius:14px;
+    padding:28px 24px; border:1px solid rgba(255,255,255,.12);
+  }
+  .wa-box h4 { color:var(--white); font-size:1rem; font-weight:700; margin-bottom:8px; }
+  .wa-box p  { color:var(--light-blue); font-size:.88rem; line-height:1.6; margin-bottom:20px; }
+  .btn-wa {
+    display:flex; align-items:center; justify-content:center; gap:10px;
+    background:#25D366; color:var(--white); padding:13px 24px; border-radius:10px;
+    text-decoration:none; font-weight:700; font-size:14.5px; transition:.25s;
+    box-shadow:0 4px 16px rgba(37,211,102,.35);
+  }
+  .btn-wa:hover { background:#1ebe5a; transform:translateY(-2px); }
+  .wa-pulso {
+    display:inline-block; width:10px; height:10px; background:#25D366;
+    border-radius:50%; margin-right:8px; animation:pulso 1.5s ease-in-out infinite;
+  }
+  @keyframes pulso {
+    0%,100%{ box-shadow:0 0 0 0 rgba(37,211,102,.5); }
+    50%     { box-shadow:0 0 0 8px rgba(37,211,102,0); }
+  }
+
+  footer { background:var(--dark-navy); padding:48px 5% 28px; border-top:1px solid rgba(255,255,255,.08); }
+  .footer-grid { display:grid; grid-template-columns:2fr 1fr 1fr; gap:40px; margin-bottom:40px; }
+  @media(max-width:768px){ .footer-grid{ grid-template-columns:1fr; } }
+  .footer-brand .logo-box {
+    display:inline-flex; align-items:center; justify-content:center;
+    width:50px; height:50px; background:var(--white); border-radius:10px;
+    font-weight:900; font-size:20px; color:var(--navy); margin-bottom:16px;
+  }
+  .footer-brand p { color:var(--mid); font-size:.9rem; line-height:1.7; max-width:300px; }
+  .footer-brand .cedula { color:rgba(255,255,255,.35); font-size:.8rem; margin-top:8px; }
+  footer h4 { color:var(--white); font-size:.95rem; font-weight:700; margin-bottom:16px; }
+  footer ul { list-style:none; }
+  footer ul li { margin-bottom:10px; }
+  footer ul li a { color:var(--mid); text-decoration:none; font-size:.88rem; transition:.2s; }
+  footer ul li a:hover { color:var(--white); }
+  .footer-bottom {
+    border-top:1px solid rgba(255,255,255,.08); padding-top:22px;
+    display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:12px;
+  }
+  .footer-bottom p { color:rgba(255,255,255,.35); font-size:.82rem; }
+  .tagline-footer { font-size:.78rem; letter-spacing:1.5px; color:rgba(255,255,255,.3); font-weight:600; }
+
+  .wa-float {
+    position:fixed; bottom:28px; right:28px; z-index:999;
+    width:58px; height:58px; background:#25D366; border-radius:50%;
+    display:flex; align-items:center; justify-content:center; font-size:1.8rem;
+    box-shadow:0 4px 20px rgba(37,211,102,.5); text-decoration:none; transition:.25s;
+    animation:float-in .5s ease .8s both;
+  }
+  .wa-float:hover { transform:scale(1.1); }
+  @keyframes float-in { from{opacity:0;transform:scale(.5)} to{opacity:1;transform:scale(1)} }
+  .wa-float-tooltip {
+    position:absolute; right:68px; background:var(--dark-navy); color:var(--white);
+    font-size:12px; font-weight:600; padding:6px 12px; border-radius:6px; white-space:nowrap;
+    opacity:0; pointer-events:none; transition:.2s;
+  }
+  .wa-float:hover .wa-float-tooltip { opacity:1; }
+
+  .reveal { opacity:0; transform:translateY(28px); transition:.6s ease; }
+  .reveal.visible { opacity:1; transform:none; }
+</style>
+</head>
+<body>
+
+<nav>
+  <a class="nav-brand" href="#inicio">
+    <div class="nav-logo-box">DCL</div>
+    <div>
+      <div class="nav-name">DCL Soluciones S.A.</div>
+      <div class="nav-sub">DESPACHO CONTABLE</div>
+    </div>
+  </a>
+  <ul>
+    <li><a href="#nosotros">Nosotros</a></li>
+    <li><a href="#junta">Equipo</a></li>
+    <li><a href="#servicios">Servicios</a></li>
+    <li><a href="#contacto" class="nav-cta">Contáctenos</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section id="inicio">
+  <div class="hero-inner">
+    <div class="hero-badge">DESPACHO CONTABLE · ZAPOTE, SAN JOSÉ</div>
+    <div class="hero-logo-box">DCL</div>
+    <h1>Soluciones contables para <span>empresas que crecen</span></h1>
+    <p>Asesoría integral en contabilidad, tributación y derecho empresarial para personas físicas y PYMES en Costa Rica.</p>
+    <div class="tagline">CONTABILIDAD &nbsp;|&nbsp; CONFIANZA &nbsp;|&nbsp; COMPROMISO &nbsp;|&nbsp; RESULTADOS</div>
+    <div class="hero-btns">
+      <a href="#servicios" class="btn-primary">Ver nuestros servicios</a>
+      <a href="#contacto"  class="btn-outline">Solicitar consulta</a>
+    </div>
+    <div class="hero-stats">
+      <div class="stat"><div class="stat-n">6</div><div class="stat-l">PROFESIONALES</div></div>
+      <div class="stat"><div class="stat-n">3</div><div class="stat-l">DEPARTAMENTOS</div></div>
+      <div class="stat"><div class="stat-n">+12</div><div class="stat-l">SERVICIOS</div></div>
+      <div class="stat"><div class="stat-n">PYMES</div><div class="stat-l">MERCADO META</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- NOSOTROS -->
+<section id="nosotros">
+  <div class="reveal">
+    <span class="section-tag">NUESTRA HISTORIA</span>
+    <h2>¿Quiénes somos?</h2>
+    <p class="lead">DCL Soluciones S.A. nació en 2026 con un propósito claro: llenar el vacío de asesoría contable, tributaria y legal de calidad para las PYMES del sur de la Gran Área Metropolitana.</p>
+  </div>
+  <div class="historia-grid reveal">
+    <div class="historia-text">
+      <h3>Nuestro origen</h3>
+      <p>Somos seis profesionales de Contaduría Pública de la Universidad Central de Costa Rica que identificamos una necesidad real: las micro y pequeñas empresas del sur del GAM —Desamparados, Zapote, Aserrí, San Sebastián— enfrentan un déficit serio de asesoría profesional accesible y de calidad.</p>
+      <p>Los grandes despachos atienden medianas y grandes empresas. Las PYMES, que representan más del 97% del tejido empresarial costarricense según el MEIC, quedan desatendidas o en manos de profesionales sin incorporación gremial.</p>
+      <p>DCL Soluciones llena ese espacio con un equipo especializado, tecnología de punta e incorporados al Colegio de Contadores Públicos y Privados de Costa Rica.</p>
+      <h3 style="margin-top:28px;">Nuestra figura legal</h3>
+      <p>Constituidos como <strong>Sociedad Anónima</strong> (cédula jurídica 3-101-847263), con Junta Directiva de cuatro miembros y Fiscal independiente, garantizando transparencia y gobierno corporativo desde el primer día.</p>
+    </div>
+    <div class="historia-img">
+      <h3>DCL Soluciones S.A.</h3>
+      <div class="sub">ZAPOTE, SAN JOSÉ · DESDE 2026</div>
+      <div class="kpi-row">
+        <div class="kpi"><div class="kpi-n">2026</div><div class="kpi-l">AÑO DE FUNDACIÓN</div></div>
+        <div class="kpi"><div class="kpi-n">S.A.</div><div class="kpi-l">FIGURA JURÍDICA</div></div>
+        <div class="kpi"><div class="kpi-n">₡9M</div><div class="kpi-l">CAPITAL SOCIAL</div></div>
+        <div class="kpi"><div class="kpi-n">PYME</div><div class="kpi-l">CLASIFICACIÓN MEIC</div></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="reveal" style="margin-top:70px;">
+    <span class="section-tag">IDENTIDAD CORPORATIVA</span>
+    <h2 class="text-center">Misión · Visión · Valores</h2>
+  </div>
+  <div class="mvv-grid reveal">
+    <div class="mvv-card dark">
+      <div class="mvv-icon">🎯</div>
+      <div class="mvv-title">Misión</div>
+      <p>Brindar soluciones empresariales contables, tributarias y legales de alta calidad a personas físicas y jurídicas en Costa Rica —con énfasis en PYMES—, mediante un equipo profesional comprometido con la ética, la innovación y el cumplimiento normativo.</p>
+    </div>
+    <div class="mvv-card navy">
+      <div class="mvv-icon">🚀</div>
+      <div class="mvv-title">Visión</div>
+      <p>Ser reconocidos para el año 2030 como uno de los despachos contables de referencia en el sur de San José y Desamparados, distinguidos por excelencia técnica, ética profesional y uso de tecnología financiera de vanguardia.</p>
+    </div>
+    <div class="mvv-card light">
+      <div class="mvv-icon" style="color:var(--navy)">💎</div>
+      <div class="mvv-title">Valores</div>
+      <p>Los principios que guían cada decisión y cada servicio que brindamos a nuestros clientes:</p>
+      <div class="valores-grid">
+        <span class="valor-chip">Ética</span>
+        <span class="valor-chip">Confidencialidad</span>
+        <span class="valor-chip">Excelencia</span>
+        <span class="valor-chip">Compromiso</span>
+        <span class="valor-chip">Innovación</span>
+        <span class="valor-chip">Honestidad</span>
+        <span class="valor-chip">Lealtad</span>
+        <span class="valor-chip">Trabajo en equipo</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- JUNTA -->
+<section id="junta">
+  <div class="reveal text-center">
+    <span class="section-tag">GOBIERNO CORPORATIVO</span>
+    <h2>Junta Directiva y Equipo</h2>
+    <p class="lead">Seis profesionales con roles claramente definidos, organizados en tres departamentos especializados bajo una estructura de gobierno corporativo formal.</p>
+  </div>
+  <div class="junta-grid reveal">
+    <div class="jd-card">
+      <div class="jd-avatar">BL</div>
+      <div class="jd-name">Brenda López Torres</div>
+      <div class="jd-cargo">PRESIDENTA / REPRESENTANTE LEGAL</div>
+      <div class="jd-desc">Firma autorizada del despacho. Representación ante clientes, entidades bancarias y reguladoras. Coordinación estratégica y relaciones institucionales.</div>
+    </div>
+    <div class="jd-card hi">
+      <div class="jd-avatar">RS</div>
+      <div class="jd-name">Royner Segura Gutiérrez</div>
+      <div class="jd-cargo">SECRETARIO / DIRECTOR GENERAL</div>
+      <div class="jd-desc">Custodia de libros sociales y redacción de actas. Coordinación operativa diaria de los tres departamentos del despacho.</div>
+    </div>
+    <div class="jd-card">
+      <div class="jd-avatar">AK</div>
+      <div class="jd-name">Andrea Jasmin Kiel Torres</div>
+      <div class="jd-cargo">TESORERA / JEFE TRIBUTARIO</div>
+      <div class="jd-desc">Administración de fondos y supervisión de estados financieros. Dirección del Departamento Tributario: IVA, renta, planillas y facturación electrónica.</div>
+    </div>
+    <div class="jd-card">
+      <div class="jd-avatar">MG</div>
+      <div class="jd-name">Marcelo Gamboa Venegas</div>
+      <div class="jd-cargo">FISCAL / JEFE LEGAL</div>
+      <div class="jd-desc">Vigilancia del cumplimiento legal y revisión de libros contables. Dirección del Departamento Legal: constituciones, contratos y trámites registrales.</div>
+    </div>
+    <div class="jd-card hi">
+      <div class="jd-avatar">MM</div>
+      <div class="jd-name">Mario Méndez Sánchez</div>
+      <div class="jd-cargo">CONTADOR SENIOR</div>
+      <div class="jd-desc">Dirección del Departamento de Contabilidad. Estados financieros bajo NIIF para PYMES, conciliaciones bancarias y análisis financiero.</div>
+    </div>
+    <div class="jd-card">
+      <div class="jd-avatar">DA</div>
+      <div class="jd-name">María Daniela Agüero Mora</div>
+      <div class="jd-cargo">AUXILIAR TRIBUTARIO</div>
+      <div class="jd-desc">Gestión de planillas CCSS, declaraciones de IVA y cargas sociales. Soporte integral al Departamento Tributario y atención de clientes.</div>
+    </div>
+  </div>
+  <div class="org-note reveal">
+    <p><strong>Estructura organizacional:</strong> DCL Soluciones opera con tres departamentos especializados —<strong>Legal</strong>, <strong>Tributario</strong> y <strong>Contabilidad</strong>— bajo una Dirección General coordinadora. Cada cliente recibe atención del especialista correcto según su necesidad, garantizando calidad técnica en cada servicio.</p>
+  </div>
+</section>
+
+<!-- SERVICIOS -->
+<section id="servicios">
+  <div class="reveal text-center">
+    <span class="section-tag">NUESTROS SERVICIOS</span>
+    <h2>Soluciones integrales para su empresa</h2>
+    <p class="lead">Cobertura completa de las necesidades contables, tributarias y legales de personas físicas y PYMES en Costa Rica.</p>
+  </div>
+  <div class="servicios-tabs reveal">
+    <button class="tab-btn active" onclick="showTab('legal',this)">⚖️ Departamento Legal</button>
+    <button class="tab-btn"        onclick="showTab('tributario',this)">📊 Departamento Tributario</button>
+    <button class="tab-btn"        onclick="showTab('contabilidad',this)">📒 Departamento Contabilidad</button>
+  </div>
+  <div id="tab-legal" class="tab-content active reveal">
+    <div class="svc-card">
+      <div class="svc-icon">🏢</div>
+      <div class="svc-title">Constitución de Sociedades</div>
+      <div class="svc-desc">Constitución de S.A. y S.R.L. desde la redacción de estatutos hasta la inscripción en el Registro Mercantil. Asesoría en la elección de la figura más adecuada.</div>
+      <span class="svc-badge">S.A. · S.R.L.</span>
+    </div>
+    <div class="svc-card">
+      <div class="svc-icon">📋</div>
+      <div class="svc-title">Inscripción ante Tributación</div>
+      <div class="svc-desc">Trámite completo del formulario D-140 ante la Dirección General de Tributación para inicio de actividades económicas.</div>
+      <span class="svc-badge">D-140 DGT</span>
+    </div>
+    <div class="svc-card">
+      <div class="svc-icon">📝</div>
+      <div class="svc-title">Contratos y Convenios</div>
+      <div class="svc-desc">Redacción y revisión de contratos de servicios, arrendamientos, acuerdos de confidencialidad y convenios societarios.</div>
+      <span class="svc-badge">Asesoría Legal</span>
+    </div>
+    <div class="svc-card">
+      <div class="svc-icon">🏪</div>
+      <div class="svc-title">Patente y Permisos</div>
+      <div class="svc-desc">Gestión de patente comercial ante municipalidades y trámite de uso de suelo para el establecimiento de su negocio.</div>
+      <span class="svc-badge">Municipalidades</span>
+    </div>
+  </div>
+  <div id="tab-tributario" class="tab-content reveal">
+    <div class="svc-card">
+      <div class="svc-icon">🧾</div>
+      <div class="svc-title">Declaraciones de IVA</div>
+      <div class="svc-desc">Presentación mensual del D-104. Cálculo preciso, validación de créditos fiscales y cumplimiento de plazos ante el Ministerio de Hacienda.</div>
+      <span class="svc-badge">D-104 Mensual</span>
+    </div>
+    <div class="svc-card">
+      <div class="svc-icon">💰</div>
+      <div class="svc-title">Declaración de Renta</div>
+      <div class="svc-desc">D-101 anual con optimización legal de carga tributaria. Las PYMES pueden tributar entre 5% y 20% en lugar del 30% general.</div>
+      <span class="svc-badge">D-101 Anual</span>
+    </div>
+    <div class="svc-card">
+      <div class="svc-icon">⚡</div>
+      <div class="svc-title">Facturación Electrónica</div>
+      <div class="svc-desc">Implementación y gestión de facturación electrónica v4.4 según estándares del Ministerio de Hacienda. Emisión, anulación y consulta de comprobantes.</div>
+      <span class="svc-badge">Versión 4.4</span>
+    </div>
+    <div class="svc-card">
+      <div class="svc-icon">👥</div>
+      <div class="svc-title">Planillas y Cargas Sociales</div>
+      <div class="svc-desc">Cálculo mensual de planillas CCSS, cargas patronales y obreras, INS, aguinaldo y liquidaciones laborales.</div>
+      <span class="svc-badge">CCSS · INS</span>
+    </div>
+    <div class="svc-card">
+      <div class="svc-icon">🔍</div>
+      <div class="svc-title">Acompañamiento en Fiscalizaciones</div>
+      <div class="svc-desc">Representación técnica ante requerimientos y fiscalizaciones de la DGT. Defensa fundamentada y gestión de acuerdos de pago.</div>
+      <span class="svc-badge">DGT · Hacienda</span>
+    </div>
+  </div>
+  <div id="tab-contabilidad" class="tab-content reveal">
+    <div class="svc-card">
+      <div class="svc-icon">📊</div>
+      <div class="svc-title">Estados Financieros</div>
+      <div class="svc-desc">Balance general, estado de resultados, flujo de efectivo y notas explicativas bajo NIIF para PYMES. Informes mensuales y anuales.</div>
+      <span class="svc-badge">NIIF para PYMES</span>
+    </div>
+    <div class="svc-card">
+      <div class="svc-icon">🏦</div>
+      <div class="svc-title">Conciliaciones Bancarias</div>
+      <div class="svc-desc">Conciliación mensual de cuentas, identificación de partidas pendientes, detección de inconsistencias e informe ejecutivo.</div>
+      <span class="svc-badge">Control Financiero</span>
+    </div>
+    <div class="svc-card">
+      <div class="svc-icon">🔄</div>
+      <div class="svc-title">Outsourcing Contable</div>
+      <div class="svc-desc">Tercerización integral de su contabilidad. Registro de transacciones, libros legales y reportes gerenciales periódicos.</div>
+      <span class="svc-badge">Servicio Recurrente</span>
+    </div>
+    <div class="svc-card">
+      <div class="svc-icon">📈</div>
+      <div class="svc-title">Análisis Financiero</div>
+      <div class="svc-desc">Flujos de caja proyectados, razones financieras, presupuestos anuales e informes para toma de decisiones gerenciales.</div>
+      <span class="svc-badge">Gestión Empresarial</span>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACTO -->
+<section id="contacto">
+  <div class="contacto-grid">
+    <div class="reveal">
+      <div class="form-card">
+        <h3>Solicite su consulta inicial</h3>
+        <p class="sub">Gratuita · Sin compromiso · Respondemos en menos de 24 horas</p>
+        <form id="contactForm" onsubmit="submitForm(event)">
+          <div class="form-row">
+            <div class="form-group">
+              <label>Nombre *</label>
+              <input type="text" id="nombre" placeholder="Juan" required>
+            </div>
+            <div class="form-group">
+              <label>Apellido *</label>
+              <input type="text" id="apellido" placeholder="Pérez" required>
+            </div>
+          </div>
+          <div class="form-group">
+            <label>Correo electrónico *</label>
+            <input type="email" id="email" placeholder="juan@miempresa.cr" required>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label>Teléfono / WhatsApp</label>
+              <input type="tel" id="telefono" placeholder="+506 8888-0000">
+            </div>
+            <div class="form-group">
+              <label>Tipo de cliente</label>
+              <select id="tipo">
+                <option value="">Seleccione...</option>
+                <option>Persona física</option>
+                <option>Microempresa (1–5 empleados)</option>
+                <option>Pequeña empresa (6–30 empleados)</option>
+                <option>Otra consulta</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-group">
+            <label>Servicio de interés</label>
+            <select id="servicio">
+              <option value="">Seleccione...</option>
+              <option>Contabilidad y estados financieros</option>
+              <option>Declaraciones tributarias (IVA / Renta)</option>
+              <option>Planillas y cargas sociales CCSS</option>
+              <option>Constitución de sociedad</option>
+              <option>Facturación electrónica</option>
+              <option>Outsourcing contable</option>
+              <option>Varios servicios / Consulta general</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Mensaje</label>
+            <textarea id="mensaje" placeholder="Cuéntenos brevemente qué necesita. ¿Tiene empresa constituida? ¿Cuántos empleados? ¿Deudas tributarias pendientes?"></textarea>
+          </div>
+          <div class="form-check">
+            <input type="checkbox" id="waOk">
+            <label for="waOk">Acepto recibir respuesta también por WhatsApp al número indicado.</label>
+          </div>
+          <button type="submit" class="btn-submit">Enviar solicitud →</button>
+        </form>
+        <div class="form-success" id="successMsg">
+          <div class="check">✅</div>
+          <p>¡Solicitud enviada con éxito!</p>
+          <p style="font-weight:400;color:var(--gray);font-size:.9rem;margin-top:6px;">Le contactaremos en menos de 24 horas hábiles.</p>
+        </div>
+      </div>
+    </div>
+    <div class="contact-info reveal">
+      <span class="section-tag">CONTÁCTENOS</span>
+      <h2 style="color:var(--white);margin-bottom:12px;">Estamos aquí para ayudarle</h2>
+      <p class="lead" style="color:var(--light-blue);margin-bottom:36px;">Primera consulta gratuita. Respuesta garantizada en menos de 24 horas hábiles.</p>
+      <h3>Información de contacto</h3>
+      <div class="info-item">
+        <div class="info-icon">📍</div>
+        <div class="info-text">
+          <strong>Dirección</strong>
+          <span>C.C. Las Dos Banderas, Local 8<br>Zapote, San José, Costa Rica</span>
+        </div>
+      </div>
+      <div class="info-item">
+        <div class="info-icon">📞</div>
+        <div class="info-text">
+          <strong>Teléfono</strong>
+          <span>+506 2200-0000</span>
+        </div>
+      </div>
+      <div class="info-item">
+        <div class="info-icon">✉️</div>
+        <div class="info-text">
+          <strong>Correo electrónico</strong>
+          <span>info@dclsoluciones.cr</span>
+        </div>
+      </div>
+      <div class="info-item">
+        <div class="info-icon">🕐</div>
+        <div class="info-text">
+          <strong>Horario de atención</strong>
+          <span>Lunes a Viernes: 8:00 am – 5:00 pm<br>Sábados: 8:00 am – 12:00 md</span>
+        </div>
+      </div>
+      <div class="wa-box">
+        <h4><span class="wa-pulso"></span>Atención inmediata por WhatsApp</h4>
+        <p>¿Prefiere respuesta más rápida? Escríbanos directamente. Un asesor de DCL Soluciones le atenderá en horario de oficina.</p>
+        <a class="btn-wa" href="https://wa.me/50622000000?text=Hola%2C%20me%20interesa%20conocer%20los%20servicios%20de%20DCL%20Soluciones%20S.A." target="_blank">
+          💬 Escribir por WhatsApp
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="footer-grid">
+    <div class="footer-brand">
+      <div class="logo-box">DCL</div>
+      <p>Despacho contable especializado en asesoría integral para PYMES en Costa Rica. Contabilidad, tributación y servicios legales con ética y excelencia.</p>
+      <div class="cedula">Cédula Jurídica: 3-101-847263</div>
+    </div>
+    <div>
+      <h4>Servicios</h4>
+      <ul>
+        <li><a href="#servicios">Constitución de Sociedades</a></li>
+        <li><a href="#servicios">Declaraciones Tributarias</a></li>
+        <li><a href="#servicios">Planillas CCSS</a></li>
+        <li><a href="#servicios">Facturación Electrónica</a></li>
+        <li><a href="#servicios">Outsourcing Contable</a></li>
+        <li><a href="#servicios">Análisis Financiero</a></li>
+      </ul>
+    </div>
+    <div>
+      <h4>Despacho</h4>
+      <ul>
+        <li><a href="#nosotros">Historia</a></li>
+        <li><a href="#nosotros">Misión y Visión</a></li>
+        <li><a href="#junta">Nuestro Equipo</a></li>
+        <li><a href="#contacto">Contacto</a></li>
+        <li><a href="https://wa.me/50622000000" target="_blank">WhatsApp</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <p>© 2026 DCL Soluciones S.A. — Todos los derechos reservados</p>
+    <div class="tagline-footer">CONTABILIDAD · CONFIANZA · COMPROMISO · RESULTADOS</div>
+  </div>
+</footer>
+
+<a class="wa-float" href="https://wa.me/50622000000?text=Hola%2C%20me%20interesa%20conocer%20los%20servicios%20de%20DCL%20Soluciones%20S.A." target="_blank">
+  <span class="wa-float-tooltip">Chatear por WhatsApp</span>
+  💬
+</a>
+
+<script>
+function showTab(id, btn) {
+  document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById('tab-' + id).classList.add('active');
+  btn.classList.add('active');
+}
+
+function submitForm(e) {
+  e.preventDefault();
+  const nombre   = document.getElementById('nombre').value.trim();
+  const apellido = document.getElementById('apellido').value.trim();
+  const email    = document.getElementById('email').value.trim();
+  const telefono = document.getElementById('telefono').value.trim();
+  const tipo     = document.getElementById('tipo').value;
+  const servicio = document.getElementById('servicio').value;
+  const mensaje  = document.getElementById('mensaje').value.trim();
+  const waOk     = document.getElementById('waOk').checked;
+
+  document.getElementById('contactForm').style.display = 'none';
+  document.getElementById('successMsg').style.display = 'block';
+
+  if (waOk && telefono) {
+    const text = encodeURIComponent(
+      `Hola, soy ${nombre} ${apellido}.\nCorreo: ${email}\n` +
+      (tipo     ? `Tipo de cliente: ${tipo}\n`         : '') +
+      (servicio ? `Servicio de interés: ${servicio}\n` : '') +
+      (mensaje  ? `\n${mensaje}` : '')
+    );
+    setTimeout(() => window.open(`https://wa.me/50622000000?text=${text}`, '_blank'), 800);
+  }
+}
+
+const obs = new IntersectionObserver(entries => {
+  entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+}, { threshold: 0.1 });
+document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
+
+window.addEventListener('scroll', () => {
+  document.querySelector('nav').style.boxShadow =
+    window.scrollY > 20 ? '0 4px 24px rgba(0,0,0,.45)' : '0 2px 16px rgba(0,0,0,.35)';
+});
+</script>
+</body>
+</html>
